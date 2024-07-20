@@ -54,5 +54,13 @@ async def keep_online():
                 logger.error(f"An error occurred: {e}")
                 await asyncio.sleep(ERROR_RETRY_INTERVAL)  # Wait longer if an error occurs
 
+def run_flask():
+    app.run(host='0.0.0.0', port=8080)
+
 if __name__ == "__main__":
+    # Start the Flask server in a separate thread
+    flask_thread = threading.Thread(target=run_flask)
+    flask_thread.start()
+    
+    # Run the Telegram client keep_online function
     asyncio.run(keep_online())
